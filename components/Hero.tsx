@@ -2,24 +2,33 @@ import React from 'react';
 import {useTypewriter, Cursor} from 'react-simple-typewriter'
 import BackgroundCircles from "components/BackgroundCircles";
 import Link from 'next/link';
+import Image from 'next/image';
+import {PageInfo} from "typings";
+import {urlFor} from "sanity";
 
+type Props = {
+  pageInfo: PageInfo
+}
 
-export default function Hero() {
+export default function Hero({pageInfo}: Props) {
   const [text, count] = useTypewriter({
     words: [
-      'Hi!, my name is Alex Rodriguez.',
-      'I am a web developer based in Lima, Peru.',
-      'I love to build things that lives in the internet'
+      `Hi!, my name is ${pageInfo.name}.`,
+      `I am a ${pageInfo.role}.`,
+      'I Love React 💙.',
+      'I love to build things for the internet.'
     ],
     loop: true,
-    delaySpeed: 2000
+    delaySpeed: 2500
   })
   return (
-    <section id='hero' className='h-screen flex flex-col space-y-0 items-center justify-center text-center overflow-hidden snap-center'>
+    <section id='hero'
+             className='min-h-screen flex flex-col space-y-0 items-center justify-center text-center overflow-hidden  '>
       <BackgroundCircles/>
-      <img className='relative rounded-full h-32 w-32 mx-auto object-cover ' src="/img/profile.jpg" alt=""/>
+      <Image unoptimized={true} width={120} height={120} className='relative rounded-full mx-auto object-cover' src={urlFor(pageInfo.profilePic).url()} />
+      {/*<img className='relative rounded-full h-32 w-32 mx-auto object-cover ' src={urlFor(pageInfo.profilePic).url()} alt=""/>*/}
       <div className='z-20 pt-5'>
-        <h2 className='text-sm uppercase text-gray-500 pb-2 tracking-[15px]'>Software developer</h2>
+        <h2 className='text-sm uppercase text-gray-500 pb-2 tracking-[15px]'>{pageInfo.role}</h2>
         <h1 className='text-5xl lg: text-6xl font-semibold scroll-pw-10'>
           <span>{text}</span>
           <Cursor cursorColor='#F7AB0A'/>
