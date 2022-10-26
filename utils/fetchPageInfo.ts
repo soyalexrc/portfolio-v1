@@ -1,11 +1,10 @@
-import {PageInfo} from 'typings';
-import { server } from "./url-config";
+import {groq} from "next-sanity";
+import {sanityClient} from "sanity";
+
+const query = groq`
+  *[_type == 'pageInfo'][0]
+`
 
 export const fetchPageInfo = async () => {
-  const res = await fetch(`${server}/api/getPageInfo`);
-
-  const data = await res.json();
-  const pageInfo: PageInfo = data.pageInfo;
-
-  return pageInfo;
+  return await sanityClient.fetch(query);
 }
